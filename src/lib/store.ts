@@ -17,7 +17,7 @@ export type LeaderboardRow = { rank: number; username: string; uniqueCards: numb
 export class StoreError extends Error { constructor(message: string, readonly status = 400) { super(message); } }
 // Bracket access keeps this server-only value dynamic on Vercel rather than
 // allowing the build to bake the local SQLite fallback into a server bundle.
-const local = !process.env["DATABASE_URL"];
+const local = !Reflect.get(process.env, "DATABASE_URL");
 const usingLocalStore = () => local;
 let client: Client | undefined; let boot: Promise<void> | undefined;
 const sqlite = () => { if (!client) { mkdirSync(path.join(process.cwd(), "data"), { recursive: true }); client = createClient({ url: `file:${path.join(process.cwd(), "data", "atlas.db")}` }); } return client; };
