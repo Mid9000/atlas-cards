@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function Home() { return <main className="landing"><div className="orb orb-one" /><div className="orb orb-two" /><section className="hero"><p className="eyebrow">COLLECT · DISCOVER · RETURN</p><h1>Atlas<br /><em>Cards</em></h1><p className="hero-copy">Une collection vivante de cent trouvailles inattendues. Ouvre, découvre, collectionne.</p><Link className="primary-button play-button" href="/play">Play <span>→</span></Link></section><div className="floating-card">✦<small>ULTIMATE</small></div></main>; }
