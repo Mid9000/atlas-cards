@@ -15,9 +15,9 @@ import { rarityOrder, type CardDefinition, type Locale, type WikimediaSource } f
 export type User = { id: string; email: string; username: string; passwordHash: string };
 export type LeaderboardRow = { rank: number; username: string; uniqueCards: number };
 export class StoreError extends Error { constructor(message: string, readonly status = 400) { super(message); } }
-// Bracket access keeps this server-only value dynamic on Vercel rather than
-// allowing the build to bake the local SQLite fallback into a server bundle.
-const local = !Reflect.get(process.env, "DATABASE_URL");
+// SQLite is strictly a development fallback. A deployed build must never try
+// to create a local database; it uses Neon or fails with a configuration error.
+const local = process.env.NODE_ENV !== "production" && !process.env.DATABASE_URL;
 const usingLocalStore = () => local;
 let client: Client | undefined; let boot: Promise<void> | undefined;
 const sqlite = () => { if (!client) { mkdirSync(path.join(process.cwd(), "data"), { recursive: true }); client = createClient({ url: `file:${path.join(process.cwd(), "data", "atlas.db")}` }); } return client; };

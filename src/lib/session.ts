@@ -2,7 +2,7 @@ import { encode } from "next-auth/jwt";
 import type { User } from "@/lib/store";
 
 const localSecret = "atlas-cards-local-development-secret";
-export const sessionSecret = (Reflect.get(process.env, "NEXTAUTH_SECRET") as string | undefined) ?? (process.env["NODE_ENV"] === "production" ? "" : localSecret);
+export const sessionSecret = process.env.NEXTAUTH_SECRET ?? (process.env.NODE_ENV === "production" ? "" : localSecret);
 
 export async function signedInRedirect(request: Request, user: User) {
   if (!sessionSecret) return new Response(null, { status: 303, headers: { Location: "/login?error=configuration" } });
